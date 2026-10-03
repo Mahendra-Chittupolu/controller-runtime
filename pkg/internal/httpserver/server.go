@@ -29,7 +29,7 @@ func New(ctx context.Context, handler http.Handler) *http.Server {
 		BaseContext:       func(_ net.Listener) context.Context { return ctx },
 		Handler:           handler,
 		MaxHeaderBytes:    1 << 20,
-		IdleTimeout:       90 * time.Second, // matches http.DefaultTransport keep-alive timeout
+		IdleTimeout:       120 * time.Second, // must exceed kube-apiserver's 90s client idle timeout so the client (not the server) closes idle connections first
 		ReadHeaderTimeout: 32 * time.Second,
 	}
 }
